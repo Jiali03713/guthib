@@ -227,7 +227,7 @@
       <p class="eyebrow">guthib.org — established by accident</p>
 
       <div class="correction">
-        <span class="typed" id="typed">guthib<span class="cursor" aria-hidden="true"></span></span>
+        <span class="typed" id="typed"><span class="cursor" aria-hidden="true"></span></span>
       </div>
       <p class="strike-note"><span class="caret">^</span> you probably meant github?</p>
 
@@ -304,9 +304,12 @@
 (function(){
   var el = document.getElementById('typed');
   var full = 'guthib';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
   var cursor = el.querySelector('.cursor');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    el.insertBefore(document.createTextNode(full), cursor);
+    return;
+  }
   cursor.remove();
   var textNode = document.createTextNode('');
   el.appendChild(textNode);
