@@ -18,6 +18,7 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.VM_PATH }}
+            sudo chown -R "$USER:$USER" guthib
             git pull origin main
             sudo chmod o+x /var/www
             sudo chmod -R a+rX guthib
