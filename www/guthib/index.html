@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>guthib.org — a typo with a domain name</title>
+<meta name="description" content="guthib.org is not GitHub. It is a typo that bought real estate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #181c26;
+    --bg-raised: #212635;
+    --paper: #ece6d6;
+    --ink: #ece6d6;
+    --ink-dim: #9aa1b4;
+    --ink-faint: #5c6274;
+    --pen: #e15b45;
+    --pen-dim: #8a3c30;
+    --tape: #e8c468;
+    --hairline: #333a4d;
+    --radius: 6px;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--tape);}
+  a:hover{color:var(--pen);}
+
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  header.hero{
+    padding:88px 0 56px;
+    border-bottom:1px solid var(--hairline);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 28px;
+  }
+
+  .correction{
+    position:relative;
+    display:inline-block;
+    margin:0 0 8px;
+  }
+  .correction .typed{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:clamp(42px, 10vw, 76px);
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    position:relative;
+  }
+  .cursor{
+    display:inline-block;
+    width:0.5ch;
+    background:var(--tape);
+    margin-left:2px;
+    animation:blink 1s step-end infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none;}
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .strike-note{
+    font-family:'Space Mono', monospace;
+    font-size:clamp(16px, 3vw, 20px);
+    color:var(--pen);
+    margin:14px 0 0;
+    padding-left:2px;
+  }
+  .strike-note .caret{
+    color:var(--pen-dim);
+  }
+
+  h1.tagline{
+    font-family:'Source Serif 4', serif;
+    font-weight:500;
+    font-size:clamp(20px, 3vw, 26px);
+    color:var(--ink);
+    margin:36px 0 0;
+    max-width:34ch;
+  }
+  .tagline em{
+    font-style:italic;
+    color:var(--ink-dim);
+  }
+
+  section{
+    padding:52px 0;
+    border-bottom:1px solid var(--hairline);
+  }
+  section:last-of-type{border-bottom:none;}
+
+  h2{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 24px;
+  }
+  h2::before{
+    content:"— ";
+    color:var(--pen-dim);
+  }
+
+  p.lede{
+    font-size:18px;
+    color:var(--ink);
+    max-width:56ch;
+    margin:0 0 16px;
+  }
+  p.lede:last-child{margin-bottom:0;}
+
+  /* errata log — the signature element */
+  .errata{
+    list-style:none;
+    margin:0;
+    padding:0;
+    counter-reset:errata-count;
+  }
+  .errata li{
+    counter-increment:errata-count;
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:16px;
+    padding:18px 0;
+    border-top:1px dashed var(--hairline);
+  }
+  .errata li:first-child{border-top:none;}
+  .errata .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-faint);
+    padding-top:2px;
+  }
+  .errata .num::before{
+    content:"Ln " counter(errata-count);
+  }
+  .errata .entry{
+    font-size:16px;
+  }
+  .errata .wrong{
+    color:var(--ink-dim);
+    text-decoration:line-through;
+    text-decoration-color:var(--pen);
+    text-decoration-thickness:1.5px;
+  }
+  .errata .right{
+    color:var(--ink);
+    display:block;
+    margin-top:4px;
+  }
+  .errata .right::before{
+    content:"→ ";
+    color:var(--tape);
+  }
+
+  .stat-row{
+    display:flex;
+    gap:32px;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+  .stat{
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .stat .n{
+    display:block;
+    font-size:28px;
+    color:var(--tape);
+    font-weight:500;
+  }
+  .stat .l{
+    display:block;
+    font-size:12px;
+    color:var(--ink-faint);
+    margin-top:4px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  footer{
+    padding:40px 0 64px;
+  }
+  footer p{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-faint);
+    margin:0 0 10px;
+  }
+  .lost-note{
+    background:var(--bg-raised);
+    border:1px solid var(--hairline);
+    border-radius:var(--radius);
+    padding:16px 20px;
+    margin-top:24px;
+    font-family:'Source Serif 4', serif;
+    font-size:15px;
+    color:var(--ink-dim);
+  }
+  .lost-note a{font-weight:500;}
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">guthib.org — established by accident</p>
+
+      <div class="correction">
+        <span class="typed" id="typed">guthib<span class="cursor" aria-hidden="true"></span></span>
+      </div>
+      <p class="strike-note"><span class="caret">^</span> you probably meant github</p>
+
+      <h1 class="tagline">This is not GitHub. <em>It is the domain you get when your fingers are faster than your proofreading.</em></h1>
+    </header>
+
+    <section aria-labelledby="what-heading">
+      <h2 id="what-heading">What this is</h2>
+      <p class="lede">Somebody bought guthib.org because it was sitting there, one keystroke away from a much more famous website, and that struck them as funny. That somebody is the reason you're reading this.</p>
+      <p class="lede">There's no code hosting here, no pull requests, no green squares. Just a domain that exists because typos deserve a home too.</p>
+    </section>
+
+    <section aria-labelledby="errata-heading">
+      <h2 id="errata-heading">Errata</h2>
+      <ul class="errata">
+        <li>
+          <span class="num"></span>
+          <span class="entry">
+            <span class="wrong">This site has a clear purpose.</span>
+            <span class="right">It does not, and that's the point.</span>
+          </span>
+        </li>
+        <li>
+          <span class="num"></span>
+          <span class="entry">
+            <span class="wrong">You arrived here on purpose.</span>
+            <span class="right">Statistically, you were probably going somewhere else.</span>
+          </span>
+        </li>
+        <li>
+          <span class="num"></span>
+          <span class="entry">
+            <span class="wrong">"Guthib" is a brand.</span>
+            <span class="right">It's a typo with a landing page and slightly too much self-awareness.</span>
+          </span>
+        </li>
+        <li>
+          <span class="num"></span>
+          <span class="entry">
+            <span class="wrong">This will be updated soon.</span>
+            <span class="right">No promises. See line 1.</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="stats-heading">
+      <h2 id="stats-heading">By the numbers</h2>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="n">1</span>
+          <span class="l">letter off from famous</span>
+        </div>
+        <div class="stat">
+          <span class="n">0</span>
+          <span class="l">repositories hosted</span>
+        </div>
+        <div class="stat">
+          <span class="n">100%</span>
+          <span class="l">intentional at this point</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>guthib.org · a domain, mostly for fun</p>
+      <div class="lost-note">
+        Looking for the place with the octocat and the pull requests? That's <a href="https://github.com" target="_blank" rel="noopener">github.com</a> — one letter over, entirely different website.
+      </div>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  var el = document.getElementById('typed');
+  var full = 'guthib';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var cursor = el.querySelector('.cursor');
+  cursor.remove();
+  var textNode = document.createTextNode('');
+  el.appendChild(textNode);
+  var i = 0;
+  function step(){
+    if (i <= full.length){
+      textNode.nodeValue = full.slice(0, i);
+      i++;
+      setTimeout(step, 110);
+    } else {
+      el.appendChild(cursor);
+    }
+  }
+  step();
+})();
+</script>
+</body>
+</html>
