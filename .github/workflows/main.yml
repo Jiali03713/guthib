@@ -17,3 +17,7 @@ jobs:
           script: |
             cd ${{ secrets.VM_PATH }}
             git pull origin main
+            sudo mkdir -p /var/www/guthib
+            sudo rsync -a --delete www/guthib/ /var/www/guthib/
+            sudo chown -R www-data:www-data /var/www/guthib
+            sudo chmod -R a+rX /var/www/guthib
