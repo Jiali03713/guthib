@@ -22,7 +22,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Publishing site files to $WEB_ROOT..."
 sudo mkdir -p "$WEB_ROOT"
-sudo rsync -a --delete "$REPO_ROOT/www/guthib/" "$WEB_ROOT/"
+sudo cp -a "$REPO_ROOT/www/guthib/." "$WEB_ROOT/"
 sudo chown -R www-data:www-data "$WEB_ROOT"
 sudo chmod -R a+rX "$WEB_ROOT"
 
