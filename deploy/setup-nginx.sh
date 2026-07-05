@@ -13,8 +13,8 @@ if [[ -z "$REPO_ROOT" ]]; then
   exit 1
 fi
 
-if [[ ! -f "$REPO_ROOT/www/guthib/index.html" ]]; then
-  echo "Error: $REPO_ROOT/www/guthib/index.html not found."
+if [[ ! -f "$REPO_ROOT/guthib/index.html" ]]; then
+  echo "Error: $REPO_ROOT/guthib/index.html not found."
   exit 1
 fi
 
@@ -22,7 +22,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Publishing site files to $WEB_ROOT..."
 sudo mkdir -p "$WEB_ROOT"
-sudo cp -a "$REPO_ROOT/www/guthib/." "$WEB_ROOT/"
+sudo cp -a "$REPO_ROOT/guthib/." "$WEB_ROOT/"
 sudo chown -R www-data:www-data "$WEB_ROOT"
 sudo chmod -R a+rX "$WEB_ROOT"
 

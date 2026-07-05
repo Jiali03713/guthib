@@ -20,6 +20,6 @@ jobs:
             cd ${{ secrets.VM_PATH }}
             git pull origin main
             sudo mkdir -p /var/www/guthib
-            sudo cp -a www/guthib/. /var/www/guthib/
+            sudo cp -a guthib/. /var/www/guthib/
             sudo chown -R www-data:www-data /var/www/guthib
             sudo chmod -R a+rX /var/www/guthib
