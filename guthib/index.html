@@ -197,6 +197,12 @@
     text-transform:uppercase;
     letter-spacing:0.06em;
   }
+  .stat-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    margin:16px 0 0;
+  }
 
   footer{
     padding:40px 0 64px;
@@ -289,7 +295,16 @@
           <span class="n">100%</span>
           <span class="l">intentional at this point</span>
         </div>
+        <div class="stat">
+          <span class="n" id="stat-today">…</span>
+          <span class="l">visitors today</span>
+        </div>
+        <div class="stat">
+          <span class="n" id="stat-total">…</span>
+          <span class="l">visitors total</span>
+        </div>
       </div>
+      <p class="stat-note">Counted once per browser per day. Refreshing in the same tab won't inflate the numbers.</p>
     </section>
 
     <footer>
@@ -324,6 +339,55 @@
     }
   }
   step();
+})();
+
+(function(){
+  var ns = 'guthib.org';
+  var todayEl = document.getElementById('stat-today');
+  var totalEl = document.getElementById('stat-total');
+  if (!todayEl || !totalEl) return;
+
+  function show(today, total){
+    todayEl.textContent = today;
+    totalEl.textContent = total;
+  }
+
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    show('—', '—');
+    return;
+  }
+
+  var today = new Date().toISOString().slice(0, 10);
+  var sessionKey = 'guthib-visit-' + today;
+  var base = 'https://api.countapi.xyz/';
+
+  function api(action, key){
+    return fetch(base + action + '/' + ns + '/' + key).then(function(r){ return r.json(); });
+  }
+
+  function load(){
+    return Promise.all([
+      api('get', today),
+      api('get', 'total')
+    ]).then(function(results){
+      show(results[0].value, results[1].value);
+    }).catch(function(){
+      show('?', '?');
+    });
+  }
+
+  if (sessionStorage.getItem(sessionKey)) {
+    load();
+    return;
+  }
+
+  sessionStorage.setItem(sessionKey, '1');
+  Promise.all([
+    api('hit', today),
+    api('hit', 'total')
+  ]).then(function(results){
+    show(results[0].value, results[1].value);
+  }).catch(load);
 })();
 </script>
 </body>
