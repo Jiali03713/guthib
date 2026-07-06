@@ -18,7 +18,17 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.VM_PATH }}
-            sudo chown -R "$USER:$USER" guthib
+            sudo chown -R "$USER:$USER" guthib guestbook-server deploy
             git pull origin main
             sudo chmod o+x /var/www
             sudo chmod -R a+rX guthib
+            cd guestbook-server
+            npm ci --omit=dev
+            sudo sed "s/User=jialishi0713/User=$USER/" ../deploy/guthib-guestbook.service | sudo tee /etc/systemd/system/guthib-guestbook.service > /dev/null
+            sudo cp ../deploy/nginx/guthib.org.conf /etc/nginx/sites-available/guthib.org
+            sudo ln -sf /etc/nginx/sites-available/guthib.org /etc/nginx/sites-enabled/guthib.org
+            sudo systemctl daemon-reload
+            sudo systemctl enable guthib-guestbook
+            sudo systemctl restart guthib-guestbook
+            sudo nginx -t
+            sudo systemctl reload nginx

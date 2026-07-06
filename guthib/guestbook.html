@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guestbook — guthib.org</title>
+<meta name="description" content="Say hi if you typo'd your way to guthib.org instead of github.com.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#181c26;
+    --bg-raised:#212635;
+    --ink:#ece6d6;
+    --ink-dim:#9aa1b4;
+    --ink-faint:#5c6274;
+    --pen:#e15b45;
+    --tape:#e8c468;
+    --hairline:#333a4d;
+    --radius:6px;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--tape);}
+  a:hover{color:var(--pen);}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px;}
+  header.hero{padding:72px 0 40px;border-bottom:1px solid var(--hairline);}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 16px;
+  }
+  h1{
+    font-family:'Space Mono', monospace;
+    font-size:clamp(28px, 6vw, 42px);
+    margin:0 0 12px;
+  }
+  .lede{font-size:18px;color:var(--ink-dim);max-width:52ch;margin:0;}
+  section{padding:40px 0;border-bottom:1px solid var(--hairline);}
+  h2{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 20px;
+  }
+  h2::before{content:"— ";color:var(--pen);}
+  label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 8px;
+  }
+  input, textarea{
+    width:100%;
+    background:var(--bg-raised);
+    border:1px solid var(--hairline);
+    border-radius:var(--radius);
+    color:var(--ink);
+    font:inherit;
+    padding:12px 14px;
+    margin:0 0 16px;
+  }
+  textarea{min-height:120px;resize:vertical;}
+  input:focus, textarea:focus{
+    outline:2px solid var(--tape);
+    outline-offset:1px;
+  }
+  .hp{position:absolute;left:-9999px;opacity:0;}
+  button{
+    background:var(--tape);
+    color:var(--bg);
+    border:none;
+    border-radius:var(--radius);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:12px 18px;
+    cursor:pointer;
+  }
+  button:hover{background:var(--pen);color:var(--ink);}
+  button:disabled{opacity:0.5;cursor:not-allowed;}
+  .status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    margin:12px 0 0;
+    min-height:1.2em;
+  }
+  .status.error{color:var(--pen);}
+  .status.ok{color:var(--tape);}
+  .messages{list-style:none;margin:0;padding:0;}
+  .messages li{
+    padding:18px 0;
+    border-top:1px dashed var(--hairline);
+  }
+  .messages li:first-child{border-top:none;}
+  .msg-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    margin:0 0 6px;
+  }
+  .msg-body{margin:0;font-size:17px;white-space:pre-wrap;word-break:break-word;}
+  .empty{color:var(--ink-dim);font-style:italic;}
+  footer{padding:40px 0 64px;}
+  footer p{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-faint);
+    margin:0;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow"><a href="/">← guthib.org</a></p>
+      <h1>Say hi</h1>
+      <p class="lede">You probably meant github.com. Since you're here anyway, leave a note for the next person who fat-fingers the same typo.</p>
+    </header>
+
+    <section aria-labelledby="post-heading">
+      <h2 id="post-heading">Leave a note</h2>
+      <form id="guestbook-form">
+        <label for="name">Name</label>
+        <input id="name" name="name" maxlength="40" required placeholder="Anonymous typo survivor">
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" maxlength="500" required placeholder="I came for pull requests and found vibes."></textarea>
+
+        <label class="hp" for="website">Website</label>
+        <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off">
+
+        <button type="submit" id="submit-btn">Post hello</button>
+        <p class="status" id="form-status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section aria-labelledby="wall-heading">
+      <h2 id="wall-heading">The wall</h2>
+      <ul class="messages" id="messages">
+        <li class="empty">Loading messages…</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>Be kind. One post every 5 minutes. No HTML, no links — just text.</p>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:3847/api'
+    : '/api/guestbook';
+
+  var form = document.getElementById('guestbook-form');
+  var list = document.getElementById('messages');
+  var statusEl = document.getElementById('form-status');
+  var submitBtn = document.getElementById('submit-btn');
+
+  function escapeHtml(text){
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function formatDate(iso){
+    try {
+      return new Date(iso).toLocaleString(undefined, {
+        year:'numeric', month:'short', day:'numeric',
+        hour:'2-digit', minute:'2-digit'
+      });
+    } catch {
+      return iso;
+    }
+  }
+
+  function renderMessages(messages){
+    if (!messages.length) {
+      list.innerHTML = '<li class="empty">Nobody has said hi yet. You could be first.</li>';
+      return;
+    }
+
+    list.innerHTML = messages.map(function(entry){
+      return '<li>' +
+        '<p class="msg-meta">' + escapeHtml(entry.name) + ' · ' + formatDate(entry.createdAt) + '</p>' +
+        '<p class="msg-body">' + escapeHtml(entry.message) + '</p>' +
+      '</li>';
+    }).join('');
+  }
+
+  function loadMessages(){
+    return fetch(API + '/messages')
+      .then(function(r){ return r.json(); })
+      .then(function(data){ renderMessages(data.messages || []); })
+      .catch(function(){
+        list.innerHTML = '<li class="empty">Could not load messages. The guestbook server may be starting up.</li>';
+      });
+  }
+
+  form.addEventListener('submit', function(event){
+    event.preventDefault();
+    statusEl.textContent = '';
+    statusEl.className = 'status';
+    submitBtn.disabled = true;
+
+    fetch(API + '/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: form.name.value,
+        message: form.message.value,
+        website: form.website.value
+      })
+    })
+      .then(function(r){
+        return r.json().then(function(data){ return { ok: r.ok, status: r.status, data: data }; });
+      })
+      .then(function(result){
+        if (!result.ok) {
+          throw new Error(result.data.error || 'Something went wrong.');
+        }
+        form.message.value = '';
+        form.website.value = '';
+        statusEl.textContent = 'Posted. Welcome to the typo club.';
+        statusEl.className = 'status ok';
+        return loadMessages();
+      })
+      .catch(function(err){
+        statusEl.textContent = err.message;
+        statusEl.className = 'status error';
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+      });
+  });
+
+  loadMessages();
+})();
+</script>
+</body>
+</html>

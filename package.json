@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "preview": "serve guthib",
-    "dev": "live-server guthib --port=8080"
+    "dev": "live-server guthib --port=8080",
+    "dev:guestbook": "npm --prefix guestbook-server run dev"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
