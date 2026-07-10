@@ -18,8 +18,9 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.VM_PATH }}
-            sudo chown -R "$USER:$USER" guthib guestbook-server deploy
+            if [ -d guthib ]; then sudo chown -R "$USER:$USER" guthib; fi
             git pull origin main
+            sudo chown -R "$USER:$USER" guthib guestbook-server deploy
             sudo chmod o+x /var/www
             sudo chmod -R a+rX guthib
             cd guestbook-server
